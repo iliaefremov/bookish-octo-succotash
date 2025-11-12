@@ -1,0 +1,5 @@
+{
+  "name": "Student Hub",
+  "description": "A comprehensive dashboard for students to manage their schedule, track grades, and interact with an AI assistant. Features an AI-powered chat for questions and homework help.",
+  "requestFramePermissions": []
+}

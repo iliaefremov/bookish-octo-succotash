@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Мои Оценки</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script>
+      // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+      if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark')
+      } else {
+        document.documentElement.classList.remove('dark')
+      }
+
+      tailwind.config = {
+        darkMode: 'class', // Enable manual dark mode toggling
+        theme: {
+          extend: {
+            colors: {
+              'primary': '#f8fafc', 
+              'secondary': '#ffffff', 
+              'accent': '#3879E8',
+              'accent-hover': '#2f68c4',
+              'highlight': '#f1f5f9',
+              'text-primary': '#1a202c',
+              'text-secondary': '#64748b',
+              'border-color': 'rgba(0, 0, 0, 0.05)',
+
+              // Цвета для темной темы
+              dark: {
+                'primary': '#0f172a', // slate-900
+                'secondary': '#1e293b', // slate-800
+                'accent': '#60a5fa', // blue-400
+                'accent-hover': '#3b82f6', // blue-500
+                'highlight': '#334155', // slate-700
+                'text-primary': '#f1f5f9', // slate-100
+                'text-secondary': '#94a3b8', // slate-400
+                'border-color': 'rgba(255, 255, 255, 0.1)',
+              }
+            },
+            boxShadow: {
+              'soft-subtle': '0 2px 8px 0 rgba(0, 0, 0, 0.04)',
+              'soft': '0 4px 12px 0 rgba(0, 0, 0, 0.07)',
+              'soft-lg': '0 10px 25px 0 rgba(0, 0, 0, 0.07)',
+              'glow-accent': '0 0 20px 0 rgba(56, 121, 232, 0.3)',
+              // Тени для темной темы
+              'dark-soft-subtle': '0 2px 8px 0 rgba(0, 0, 0, 0.2)',
+              'dark-soft': '0 4px 12px 0 rgba(0, 0, 0, 0.3)',
+              'dark-soft-lg': '0 10px 25px 0 rgba(0, 0, 0, 0.3)',
+            },
+            animation: {
+              'fade-in': 'fadeIn 0.5s ease-out forwards',
+              'fade-out': 'fadeOut 0.5s ease-out forwards',
+              'zoom-in': 'zoomIn 0.3s ease-out forwards',
+              'blink': 'blink 1.5s ease-in-out infinite',
+              'tada': 'tada 1s ease-in-out',
+              'swing': 'swing 2s ease-in-out',
+              'ping': 'ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite',
+            },
+            keyframes: {
+              fadeIn: {
+                '0%': { opacity: 0, transform: 'translateY(10px)' },
+                '100%': { opacity: 1, transform: 'translateY(0)' },
+              },
+              fadeOut: {
+                'from': { opacity: 1, transform: 'translateY(0)' },
+                'to': { opacity: 0, transform: 'translateY(10px)' },
+              },
+              zoomIn: {
+                '0%': { opacity: 0, transform: 'scale(0.95)' },
+                '100%': { opacity: 1, transform: 'scale(1)' },
+              },
+              blink: {
+                '0%, 100%': { opacity: 1 },
+                '50%': { opacity: 0.4 },
+              },
+              ping: {
+                '75%, 100%': {
+                  transform: 'scale(2.5)',
+                  opacity: '0'
+                }
+              },
+              tada: {
+                '0%': { transform: 'scale(1)' },
+                '10%, 20%': { transform: 'scale(0.9) rotate(-3deg)' },
+                '30%, 50%, 70%, 90%': { transform: 'scale(1.1) rotate(3deg)' },
+                '40%, 60%, 80%': { transform: 'scale(1.1) rotate(-3deg)' },
+                '100%': { transform: 'scale(1) rotate(0)' },
+              },
+              swing: {
+                '20%': { transform: 'rotate3d(0, 0, 1, 15deg)' },
+                '40%': { transform: 'rotate3d(0, 0, 1, -10deg)' },
+                '60%': { transform: 'rotate3d(0, 0, 1, 5deg)' },
+                '80%': { transform: 'rotate3d(0, 0, 1, -5deg)' },
+                '100%': { transform: 'rotate3d(0, 0, 1, 0deg)' },
+              },
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        background-color: #f8fafc;
+        background-image: radial-gradient(circle at 100% 100%, #eef2f7 0%, #f8fafc 50%);
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        color: #1a202c; /* text-primary */
+      }
+      .dark body {
+        background-color: #0f172a; /* dark-primary */
+        background-image: none;
+        color: #f1f5f9; /* dark-text-primary */
+      }
+      .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .hide-scrollbar {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+      }
+      .scroll-target {
+        scroll-margin-top: 2vh; /* 2% of viewport height */
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.28.0",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react-dom": "https://aistudiocdn.com/react-dom@^19.2.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
